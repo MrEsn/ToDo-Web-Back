@@ -34,8 +34,8 @@ Route.group(() => {
 Route.group(()=>{
   Route.post('/', 'CategoriesController.store')
   Route.get('/', 'CategoriesController.index')
-  Route.put('/:id', 'CategoriesController.update')
-  Route.delete('/:id', 'CategoriesController.delete')
+  Route.put('/', 'CategoriesController.update')
+  Route.delete('/', 'CategoriesController.delete')
 
 }).prefix('api/category').middleware('auth')
 
