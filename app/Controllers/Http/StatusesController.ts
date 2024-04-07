@@ -46,12 +46,12 @@ export default class StatusesController {
         const result: { id: number; name: string; data: any[]; }[] = [];
         const auth_user = await auth.user;
         const req = request.all();
-        req.filter.user_id = auth_user?.id;
         try {
                 for(const item of status){
                 const tasks = await Task.query()
-                    .where(req.filter)
+                    .where('user_id', auth_user?.id)
                     .where('status_id', item.id)
+                    .where(req.filter)
                     .where('title', 'like', "%" + req.search + "%")
                     .orderBy(req.orderBy, req.orderType)
                     //.paginate(req.page, req.perPage);
