@@ -34,14 +34,14 @@ Route.group(() => {
 Route.group(()=>{
   Route.post('/', 'CategoriesController.store')
   Route.get('/', 'CategoriesController.index')
-  Route.put('/', 'CategoriesController.update')
-  Route.delete('/', 'CategoriesController.delete')
+  Route.put('/:id', 'CategoriesController.update')
+  Route.delete('/:id', 'CategoriesController.delete')
 
 }).prefix('api/category').middleware('auth')
 
 Route.group(()=>{
   Route.post('/', 'NotesController.store')
   Route.get('/', 'NotesController.index')
-  Route.put('/', 'NotesController.update')
-  Route.delete('/', 'NotesController.delete')
+  Route.put('/:id', 'NotesController.update')
+  Route.delete('/:id', 'NotesController.delete')
 }).prefix('api/note').middleware('auth')
