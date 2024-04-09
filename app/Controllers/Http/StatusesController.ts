@@ -11,7 +11,7 @@ export default class StatusesController {
         const status = await Status.all()
         const result: { id: number; name: string; data: any[]; }[] = [];
         const auth_user = await auth.user;
-        const req = request.all();
+        const req = request.all()
         try {
                 for(const item of status){
                 const tasks = await Task.query()
@@ -27,15 +27,15 @@ export default class StatusesController {
                     data: tasks
                 })
             }
-            return new SuccessResponse(response, result, req.filter);
+            return new SuccessResponse(response, result, req.filter)
         } catch (error) {
-            ErrorHandler.handle(error, response);
+            ErrorHandler.handle(error, response)
         }
     }
 
     async store({request, response, auth}: HttpContextContract) {
         const user = await auth.user
-        const { title}   = request.all();
+        const {title} = request.all()
         try {
             const status = await Status.create({title: title, user_id: user?.id})
             return new SuccessResponse(response, status)
