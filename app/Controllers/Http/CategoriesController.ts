@@ -4,6 +4,18 @@ import { ErrorHandler } from 'App/Exceptions/ErrorHandlerException'
 import Category from 'App/Models/Category'
 
 export default class CategoriesController {
+
+    async index({response, auth}: HttpContextContract ) {
+        const auth_user = auth.user
+        try {
+            const categories = await Category.query()
+                .where('user_id', auth_user?.id)
+            return new SuccessResponse(response, categories)
+        } catch (error) {
+            ErrorHandler.handle(error, response)
+        }
+    }
+
     async store({request, response, auth}: HttpContextContract) {
         const auth_user = await auth.user
         const titles = request.input('titles') as string[];
@@ -17,19 +29,6 @@ export default class CategoriesController {
         }
     }
  
-
-    async index({response, auth}: HttpContextContract ) {
-        const auth_user = auth.user
-        try {
-            const categories = Category.query()
-                .where('user_id', auth_user?.id)
-            return new SuccessResponse(response, categories)
-        } catch (error) {
-            ErrorHandler.handle(error, response)
-        }
-    }
-
-
     async update({ request, response}: HttpContextContract) {
         const data = request.input('data') as [string, string][];
         try {
@@ -47,9 +46,8 @@ export default class CategoriesController {
     }
 
 
-    async delete({ request, response }: HttpContextContract) {
+    async destroy({ request, response }: HttpContextContract) {
         const titles = request.input('titles') as string[]; 
-    
         try {
             await titles.forEach(async (title) => {
                 const category = await Category.findBy('title', title);

@@ -49,7 +49,7 @@ export default class AuthController {
      }
 
 
-
+     //! github
 
      public async github({ally}: HttpContextContract){
         return ally.use('github').redirect()
@@ -75,6 +75,7 @@ export default class AuthController {
             }
      }
 
+     //! google
 
      public async google({ ally}: HttpContextContract){
         return ally.use('google').redirect()

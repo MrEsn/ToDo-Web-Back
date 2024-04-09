@@ -5,6 +5,18 @@ import { ErrorHandler } from 'App/Exceptions/ErrorHandlerException'
 import Note from 'App/Models/Note'
 
 export default class NotesController {
+
+    async index({response, auth}: HttpContextContract ) {
+        const auth_user = auth.user
+        try {
+            const notes = await Note.query()
+                .where('user_id', auth_user?.id)
+            return new SuccessResponse(response, notes)
+        } catch (error) {
+            ErrorHandler.handle(error, response)
+        }
+    }
+
     async store({request, response, auth}: HttpContextContract) {
         const data = request.only(['title', 'description', 'user_id'])
         const auth_user = auth.user
@@ -44,16 +56,4 @@ export default class NotesController {
             ErrorHandler.handle(error, response)
         }
     }
-
-    async index({response, auth}: HttpContextContract ) {
-        const auth_user = auth.user
-        try {
-            const notes = Note.query()
-                .where('user_id', auth_user?.id)
-            return new SuccessResponse(response, notes)
-        } catch (error) {
-            ErrorHandler.handle(error, response)
-        }
-    }
-
 }

@@ -4,9 +4,9 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.group(() => {
   //Route.get('/','TasksController.index')
   //Route.get('/:id','TasksController.show')
-  Route.post('/', 'TasksController.store')
-  Route.put('/:id','TasksController.update')
-  Route.delete('/:id', 'TasksController.destroy')
+  Route.post('/add', 'TasksController.store')
+  Route.put('/update/:id','TasksController.update')
+  Route.delete('/delete/:id', 'TasksController.destroy')
 }).prefix('api/tasks').middleware('auth')
 
 
@@ -24,24 +24,24 @@ Route.group(()=>{
 
 
 Route.group(() => {
-  Route.post('/', 'StatusesController.store')
-  Route.put('/:id', 'StatusesController.update')
-  Route.delete('/:id', 'StatusesController.destroy')
-  Route.get('/', 'StatusesController.index').middleware('handle')
+  Route.get('/index', 'StatusesController.index').middleware('handle')
+  Route.post('/add', 'StatusesController.store')
+  Route.put('update/:id', 'StatusesController.update')
+  Route.delete('/delete/:id', 'StatusesController.destroy')
 
 }).prefix('api/status').middleware('auth')
 
 Route.group(()=>{
-  Route.post('/', 'CategoriesController.store')
-  Route.get('/', 'CategoriesController.index')
-  Route.put('/', 'CategoriesController.update')
-  Route.delete('/', 'CategoriesController.delete')
+  Route.get('/index', 'CategoriesController.index')
+  Route.post('/add', 'CategoriesController.store')
+  Route.put('/update', 'CategoriesController.update')
+  Route.delete('/delete', 'CategoriesController.destroy')
 
 }).prefix('api/category').middleware('auth')
 
 Route.group(()=>{
-  Route.post('/', 'NotesController.store')
-  Route.get('/', 'NotesController.index')
-  Route.put('/:id', 'NotesController.update')
-  Route.delete('/:id', 'NotesController.delete')
+  Route.get('/index', 'NotesController.index')
+  Route.post('/add', 'NotesController.store')
+  Route.put('/update/:id', 'NotesController.update')
+  Route.delete('/delete/:id', 'NotesController.destroy')
 }).prefix('api/note').middleware('auth')
