@@ -2,8 +2,7 @@ import Route from '@ioc:Adonis/Core/Route'
 
 
 Route.group(() => {
-  //Route.get('/','TasksController.index')
-  //Route.get('/:id','TasksController.show')
+  Route.get('/index/:id','TasksController.index').middleware('handle')
   Route.post('/add', 'TasksController.store')
   Route.put('/update/:id','TasksController.update')
   Route.delete('/delete/:id', 'TasksController.destroy')
@@ -20,11 +19,13 @@ Route.group(()=>{
     
   Route.get('/github', 'AuthController.github')
   Route.get('/github/callback', 'AuthController.github_callback')
+
+  Route.get('/getip', 'AuthController.get_ip')
 }).prefix('api/auth')
 
 
 Route.group(() => {
-  Route.get('/index', 'StatusesController.index').middleware('handle')
+  Route.get('/index', 'StatusesController.index')
   Route.post('/add', 'StatusesController.store')
   Route.put('update/:id', 'StatusesController.update')
   Route.delete('/delete/:id', 'StatusesController.destroy')
@@ -34,8 +35,8 @@ Route.group(() => {
 Route.group(()=>{
   Route.get('/index', 'CategoriesController.index')
   Route.post('/add', 'CategoriesController.store')
-  Route.put('/update', 'CategoriesController.update')
-  Route.delete('/delete', 'CategoriesController.destroy')
+  Route.put('/update/:id', 'CategoriesController.update')
+  Route.delete('/delete/:id', 'CategoriesController.destroy')
 
 }).prefix('api/category').middleware('auth')
 

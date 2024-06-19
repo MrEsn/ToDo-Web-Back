@@ -9,9 +9,9 @@ export default class extends BaseSchema {
       table.string('title').notNullable()
       table.string('description').notNullable()
       table.enum('priority', ['High', 'Medium', 'Low']).notNullable().defaultTo('Medium')
-      table.integer('category_id').references('id').inTable('categories')
-      table.integer('user_id').references('id').inTable('users')
-      table.integer('status_id').unsigned().references('id').inTable('statuses')
+      table.integer('category_id').references('id').inTable('categories').onDelete('CASCADE')
+      table.integer('user_id').references('id').inTable('users').onDelete('CASCADE')
+      table.integer('status_id').unsigned().references('id').inTable('statuses').onDelete('CASCADE')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

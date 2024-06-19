@@ -3,26 +3,12 @@ import User from 'App/Models/User'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { SuccessResponse } from 'App/Exceptions/ApiResponseException'
 import { ErrorHandler } from 'App/Exceptions/ErrorHandlerException'
+import CreateUserValidator from 'App/Validators/CreateUserValidator'
 
 export default class AuthController {
 
     async register({request, response, auth}: HttpContextContract) {
-        const userSchema = schema.create({
-            user_name: schema.string({trim : true}, [
-                rules.maxLength(70),
-                rules.minLength(5)
-            ]),
-            email: schema.string({},[
-                rules.email(),
-                rules.maxLength(255),
-                rules.unique({table: 'users', column: 'email'})
-            ]),
-            password: schema.string({},[
-                rules.maxLength(255),
-                rules.confirmed('password_confirmation')
-            ])
-        })
-        const data = await request.validate({schema: userSchema})
+        const data = await request.validate(CreateUserValidator)
         try {
             const user = await User.create(data)
             const token = await auth.use('api').generate(user)
@@ -99,5 +85,9 @@ export default class AuthController {
             } catch (error) {
                 ErrorHandler.handle(error, response)
             }
+    }
+
+    public async get_ip({request}: HttpContextContract){
+        console.log(request.ips())
     }
 }

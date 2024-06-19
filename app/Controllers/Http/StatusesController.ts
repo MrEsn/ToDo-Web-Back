@@ -7,27 +7,12 @@ import Status from 'App/Models/Status'
 
 export default class StatusesController {
 
-    async index({request, response, auth}: HttpContextContract){
-        const status = await Status.all()
-        const result: { id: number; name: string; data: any[]; }[] = [];
+    async index({response, auth}: HttpContextContract){
         const auth_user = await auth.user;
-        const req = request.all()
         try {
-                for(const item of status){
-                const tasks = await Task.query()
-                    .where('user_id', auth_user?.id)
-                    .where('status_id', item.id)
-                    .where(req.filter)
-                    .where('title', 'like', "%" + req.search + "%")
-                    .orderBy(req.orderBy, req.orderType)
-                    //.paginate(req.page, req.perPage);
-                result.push({
-                    id: item.id,
-                    name: item.title, 
-                    data: tasks
-                })
-            }
-            return new SuccessResponse(response, result, req.filter)
+            const statuses = await Status.query()
+                .where('user_id', auth_user?.id)
+            return new SuccessResponse(response, statuses)
         } catch (error) {
             ErrorHandler.handle(error, response)
         }
@@ -67,3 +52,20 @@ export default class StatusesController {
         }
     }
 }
+
+
+
+//const result: { id: number; name: string; data: any[]; }[] = [];
+// for(const item of status){
+//     const tasks = await Task.query()
+//         .where('user_id', auth_user?.id)
+//         .where('status_id', item.id)
+//         .where(req.filter)
+//         .where('title', 'like', "%" + req.search + "%")
+//         .orderBy(req.orderBy, req.orderType)
+//     result.push({
+//         id: item.id,
+//         name: item.title, 
+//         data: tasks
+//     })
+// }
